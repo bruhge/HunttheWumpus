@@ -80,22 +80,27 @@ class WumpusGame(object):
             return 1
 
     def gamePlay(self):
+        self.set_cave()
         keepGoing = 1
         while keepGoing > 0:
             self.print_warning()
-            print("You are in room {}".format(self.playerPos))
-            print("The threats are in {}".format(self.threats))
             decision = input("Would you like to Move (m) or shoot (s) ")
-            location = int(input("Which room {} ".format(self.cave.get(self.playerPos))))
-            if decision == "m":
-                self.move(location)
-                keepGoing = self.gameOver(location)
-            elif decision == "s":
-                keepGoing = self.shoot(location)
-            else:
-                keepGoing = 0;
+            try:
+                if decision == "m":
+                    location = int(input("Which room {} ".format(self.cave.get(self.playerPos))))
+                    self.move(location)
+                    keepGoing = self.gameOver(location)
+                elif decision == "s":
+                    location = int(input("Which room {} ".format(self.cave.get(self.playerPos))))
+                    keepGoing = self.shoot(location)
+                elif decision == "q":
+                    keepGoing = 0;
+                else:
+                    print("Please choose 'm', 's', or 'q'")
+            except ValueError:
+                print("Please choose 'm', 's', or 'q'")
 
 
-test = WumpusGame()
-test.set_cave()
-test.gamePlay()
+if __name__ == '__main__':
+    test = WumpusGame()
+    test.gamePlay()
